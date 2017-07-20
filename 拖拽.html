@@ -29,8 +29,8 @@
 				this.box.onmousedown = function(ev){
 					_this.down(ev);
 					return false;
-				}
-			}
+				};
+			};
 			Fn.prototype.down = function(ev){
 				this.disX = ev.clientX-this.box.getBoundingClientRect().left;
 				this.disY = ev.clientY-this.box.getBoundingClientRect().top;
