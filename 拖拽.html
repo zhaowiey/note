@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#box{
+				width: 100px;
+				height: 100px;
+				background: red;
+				position: absolute;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			
+		</div>
+		<script type="text/javascript">
+			function Fn(id){
+				this.disX = 0;
+				this.disY = 0;
+				this.l = 0;
+				this.t = 0;
+				this.box = document.getElementById(id);
+				this.init();
+			}
+			//初始化
+			Fn.prototype.init = function(){
+				var _this = this;
+				this.box.onmousedown = function(ev){
+					_this.down(ev);
+					return false;
+				}
+			}
+			Fn.prototype.down = function(ev){
+				this.disX = ev.clientX-this.box.getBoundingClientRect().left;
+				this.disY = ev.clientY-this.box.getBoundingClientRect().top;
+				var _this = this
+				document.onmousemove = function(ev){
+					_this.move(ev);
+				}
+				document.onmouseup= function(){
+					_this.up();
+				}
+			}
+			Fn.prototype.move = function(ev){
+				this.l = ev.clientX-this.disX;
+				this.t = ev.clientY-this.disY;
+				this.lim();
+				this.box.style.left = this.l+'px';
+				this.box.style.top = this.t+'px';
+			}
+			Fn.prototype.up = function(){
+				document.onmousemove = null;
+				document.onmouseup = null;
+			}
+			Fn.prototype.lim = function(){
+				if(this.l<0){
+					this.l = 0;
+				}else if(this.l>window.innerWidth-this.box.offsetWidth){
+					this.l = window.innerWidth-this.box.offsetWidth;
+				}
+				if(this.t<0){
+					this.t = 0;
+				}else if(this.t>window.innerHeight-this.box.offsetHeight){
+					this.t = window.innerHeight-this.box.offsetHeight;
+				}
+			}
+			var d = new Fn('box');
+		</script>
+	</body>
+</html>
