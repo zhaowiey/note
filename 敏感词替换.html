@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<input type="text" id="txt" />
+		<input type="button" id="btn" value="提交" />
+		<ul id="list">
+			
+		</ul>
+		<script type="text/javascript">
+			var txt = document.getElementById('txt');
+			var btn = document.getElementById('btn');
+			var list = document.getElementById('list');
+			var arr = ['你妹','我靠'];
+			var str = arr.join('|');
+			var re = new RegExp(str,'g');
+			btn.onclick = function(){
+				var val = txt.value;				
+				var v = val.replace(re,function($0){
+					switch($0){
+						case '你妹':
+							return '$%_~';
+						break;
+						case '我靠':
+							return '$%&';
+						break;
+					}
+				});
+				var li = document.createElement('li');
+				li.innerHTML = v;
+				list.appendChild(li);
+				txt.value = '';
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		年龄： <input type="text" id="txt" />
+		<input type="button" id="btn" value="提交" />
+		<script type="text/javascript">
+			//不在16-101年龄段范围的，提示错误
+			var txt = document.getElementById('txt');
+			var btn = document.getElementById('btn');
+			btn.onclick = function(){
+				var val = txt.value;
+				var re = /^1[6-9]$|^[2-9][0-9]$|^10[0-1]$/
+				//console.log(re)
+				var n = re.test(val);
+				if(n){
+					alert('提交成功')
+				}else{
+					alert('不符合年龄阶段')
+				}
+			}
+		</script>
+	</body>
+</html>
