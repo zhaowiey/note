@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//存储器
+			function addEvent(obj,Events,fn){
+				obj.zdy = obj.zdy || {};
+				obj.zdy[Events] = obj.zdy[Events] || [];
+				obj.zdy[Events].push(fn)
+				
+			}
+			//触发器
+			function trigger(obj,Events){
+				if(!obj.zdy[Events]) return;
+				obj.zdy[Events].forEach((e,i)=>{
+					e.call(obj);
+				})
+			}
+			document.onmousedown = function(ev){
+					var disX = ev.clientX;
+					var disY = ev.clientY;
+					var d = new Date;
+					
+					document.onmouseup = function(ev){
+						var d2 = new Date;
+						if(d2 - d > 1000 && disY - ev.clientY < 5 && disX - ev.clientX < 5){ //长按
+							//alert('触发了长按事件');
+							trigger(document,'长按');
+						}else{
+							//用户点击了
+							
+							trigger(document,'点击');
+							
+			//				alert('点击');
+						}
+					}
+				}
+			addEvent(document,'点击',function(){
+				document.documentElement.style.backgroundColor = 'red';
+			});
+			addEvent(document,'长按',function(){
+				document.style.backgroundColor = 'pink';
+			});
+		</script>
+	</body>
+</html>
