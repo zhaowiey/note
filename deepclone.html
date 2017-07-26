@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			/*
+		如果对象中某个值为对象类型，那么赋值的时候依然为赋址。
+		
+		解决：
+			循环的时候，只要发现某个值为对象类型，那么继续循环这个对象类型，把对象类型中的值再赋值给另一个对象。 
+		*/
+		var arr = [1,2,3,4,[5,6,7,8]];
+//		var arr2 = [];
+		
+		/*现在就是，如果这个arr里面有个复合类型，那么你在用for in 循环的那个方法来克隆过后，如果修改这个复合类型，那么原来的数组也会被修改*/
+//		for(var attr in arr){
+//			arr2[attr] = arr[attr];
+//		}
+		/*下面这个方法就是递归，找出这个数组里的复合类型，然后也赋值的方式赋给arr2*/
+		//1.封装一个函数
+		function findObj(obj){
+			var o = obj.push?[]:{};//判断传进来的obj是数组还是键值对
+			for(var i=0;i<obj.length;i++){
+				if(Object.prototype.toString.call(obj[i]) == '[object Object]' || Object.prototype.toString.call(obj[i]) == '[object Array]'){
+					o[i] = findObj(obj[i]);
+				}else{
+					o[i] = arr[i];
+				}
+			}
+			return o;
+		}
+		//2.创建一个数组用深度克隆函数克隆
+		var arr2 = findObj(arr);
+		console.log(arr2);
+		arr2.push(9);//这时在改变这个新数组的数据，arr就不会被改变了，完成了我们想要的数组里的复合类型也是以赋值的方式传给arr2
+		arr2[4].push('C');
+		console.log(arr);
+		console.log(arr2);
+		</script>
+	</body>
+</html>
