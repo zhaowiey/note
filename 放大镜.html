@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	<style>
+	img{
+		vertical-align: middle;
+		border:none;
+	}
+	#left{
+		width:300px;
+		height: 300px;
+		position: absolute;
+		left:0;
+		top:10px;
+	}
+	#left span{
+		width:100px;
+		height: 100px;
+		background: #000;
+		opacity: 0.3;
+		position: absolute;
+		left:0;
+		top:0;
+		display: none;
+	}
+	#right{
+		width:300px;
+		height: 300px;
+		position: absolute;
+		left:320px;
+		top:10px;
+		overflow: hidden;
+		display: none;
+	}
+	#right img{
+		position: absolute;
+		left:0;
+		top:0;
+	}
+	</style>
+</head>
+<body>
+	<div id="left">
+		<img src="small.jpg"/>
+		<span id="span"></span>
+	</div>
+	<div id="right">
+		<img src="big.jpg">
+	</div>
+	<script>
+		function bigmirror(ele1,ele2){
+			this.left = document.getElementById(ele1);
+			this.right = document.getElementById(ele2);
+			console.log(this);
+			this.big = this.right.getElementsByTagName('img')[0];
+			this.span = document.getElementById('span');
+			this.l = 0;
+			this.t = 0;
+			this.maxL = 0;
+			this.maxT = 0;
+			this.s = 0;
+			this.q = 0;
+			//限制范围
+			var _this = this;
+			this.left.onmouseover = function(){
+				_this.over();
+				this.onmousemove = function(ev){
+					_this.move(ev);
+				}
+				this.onmouseout = function(ev){
+					_this.out(ev);
+				}
+			}
+		}
+		bigmirror.prototype.over = function(){
+			this.span.style.display = 'block';
+		}
+		bigmirror.prototype.out = function(){
+			this.span.style.display = '';
+		}
+		bigmirror.prototype.move = function(ev){
+			this.l = ev.clientX - this.span.offsetWidth/2; 
+			this.t = ev.clientY - this.span.offsetHeight/2; 
+			this.maxL = this.left.clientWidth-this.span.offsetWidth;
+			this.maxT = this.left.clientHeight-this.span.offsetHeight;
+			this.lim();
+			//this.span.style.display = 'block';
+			this.span.style.left = this.l + 'px';
+			this.span.style.top = this.t + 'px';
+			this.s = this.l/this.maxL;
+			this.q = this.t/this.maxT;
+			this.right.style.display = 'block';
+			this.big.style.left = (this.right.offsetWidth - this.big.offsetWidth)*this.s+'px';
+			this.big.style.top = (this.right.offsetHeight - this.big.offsetHeight)*this.q+'px';
+		}
+		bigmirror.prototype.lim = function(){
+			if(this.l < 0){
+				this.l = 0;
+			}else if(this.l > this.maxL){
+				this.l = this.maxL;
+			}
+			if(this.t < 0){
+				this.t = 0;
+			}else if(this.t > this.maxT){
+				this.t = this.maxT;
+			}
+		}
+		var t = new bigmirror('left','right');
+	</script>
+	</body>
+</html>
