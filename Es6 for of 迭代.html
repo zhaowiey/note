@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+//			function [Symbol.iterator](){
+//				//遍历接口函数
+//			}
+	var obj = {
+		name:'sss',
+		age:18
+	}
+			obj[Symbol.iterator] = function(){
+				let arr = Object.keys(obj);//[name,age]
+				console.log(arr)
+				let i = 0;
+				let len = arr.length;
+				return{
+					next(){
+						if(i<len){
+							return{
+								value:{
+									key:arr[i],
+									val:obj[arr[i++]]
+								},
+								done:false
+							}
+						}else{
+							return{
+								value:null,
+								done:true
+							}
+						}
+					}
+				}
+			}
+			for(var {val:v,key:k} of obj){
+				console.log(v)
+				console.dir(obj)
+			}
+		</script>
+	</body>
+</html>
