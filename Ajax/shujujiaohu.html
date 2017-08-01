@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		用户名：<input type="text" name="user" id="user"/><span></span><br />
+		密码：<input type="password"/>
+		
+		<input type="button" value="提交"/>
+		<script src="jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$('#user').blur(function(){
+				console.log(123)
+				$.ajax({
+					url:'php/get.php',
+					data:{
+						user:$('#user').val()//get.php里的$username = $_GET['user'];
+					},
+					success:function(data){
+						$('span').text(data);
+					}
+				})
+			})
+		</script>
+	</body>
+</html>
