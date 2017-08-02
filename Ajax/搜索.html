@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<input type="text" name="user" id="user"/>
+		<input type="button" id="btn" value="点击搜索" /></br>
+		<!--<div id="box">
+			
+		</div>-->
+		<script src="jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$('#user').blur(function(){
+				$.ajax({
+					url:'php/ajax.php',
+					data:{
+						user:$('#user').val()
+					},
+					success:function(data){
+						data = JSON.parse(data)
+						if(data.code == 0){
+							let div = document.createElement('div');
+							let html = '';
+							html = `我叫${data.data.name},我${data.data.age}了,我的爱好是${data.data.hobby},我的宣言是${data.data.info}`
+							div.innerHTML = html
+							$('body').append(div)
+						}else{
+							alert(data.data)
+						}
+//						console.log(data);
+//						console.log(data.code);
+//						console.log(data.data.name);
+					}
+				});
+				
+			});
+			
+		</script>
+	</body>
+</html>
